@@ -13,13 +13,50 @@ public class Toy implements i_EditToy {
     private int toysQuantity;
     private double toysWeight;
 
-    public Toy(String toysName, int toysQuantity, int id, double toysWeight) {
+    public Toy(String toysName, int toysQuantity, int toyID, double toysWeight) {
 
         this.toysName = toysName;
         this.toysQuantity = toysQuantity;
-        this.toyID = id;
+        this.toyID = toyID;
         this.toysWeight = toysWeight;
 
+    }
+
+    public Toy(int toyID) {
+        try (Scanner input = new Scanner(System.in)) {
+
+            this.toyID = toyID;
+            System.out.println("Enter toys name: ");
+            this.toysName = input.nextLine();
+            System.out.println("Enter toys quantity you'd like to add: ");
+            this.toysQuantity = input.nextInt();
+            System.out.println("Enter toys weight in double:\n(Example: 3,250 means 3 kg and 250 grams)");
+            this.toysWeight = input.nextDouble();
+
+        } catch (Exception e) {
+            System.err.println("Uncorrect data entered. Please, redo.");
+
+        }
+    }
+    public Toy(){
+        
+        try (Scanner input = new Scanner(System.in)) {
+
+            System.out.println("Enter toys name: ");
+            this.toysName = input.nextLine();
+            System.out.println("Enter toys quantity you'd like to add: ");
+            this.toysQuantity = Integer.parseInt(input.nextLine());
+            System.out.println("Enter toys weight in double:\n(Example: 3.250 means 3 kg and 250 grams)");
+            this.toysWeight = Double.parseDouble(input.nextLine());
+            
+            // System.err.println("\nMistake found.");
+            // Thread.sleep(3000);
+            
+
+        } catch (Exception e) {
+            System.err.println("Uncorrect data entered. Please, redo.");
+
+        }
     }
 
     @Override
@@ -65,8 +102,6 @@ public class Toy implements i_EditToy {
         System.out.println(mPriorityQueue.poll().toyToString());
     }
 
-    
-
     //////
     public double getToysWeight() {
         return toysWeight;
@@ -79,10 +114,14 @@ public class Toy implements i_EditToy {
     public int getToyID() {
         return toyID;
     }
+    
 
     public void setToyID(int toyID) {
         this.toyID = toyID;
     }
+    // public void setToyID() {
+    //     this.toyID = toyID;
+    // }
 
     public String getToysName() {
         return toysName;
