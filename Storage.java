@@ -44,8 +44,8 @@ public class Storage {
      * 
      * @param myList
      */
-    public void pickToy() {
-        try (Scanner input = new Scanner(System.in)) {
+    public void pickToy(Scanner input) {
+        try  {
             System.out.println("Which toy would u like to try to pick? ");
             System.out.println("Remember, higher the weight -- more risk -- better the price!");
             System.out.println("Write toy's name to pick: ");
@@ -55,12 +55,12 @@ public class Storage {
                 if (toysList.get(i).getToysName().toUpperCase().equals(myAnswer.toUpperCase())) {
 
                     counter = 0;
-                    int quantity = toysList.get(i).getToysQuantity();
-                    toysList.get(i).setToysQuantity(quantity - 1);
-                    if (toysList.get(i).getToysQuantity() == 0) {
+                    //int quantity = toysList.get(i).getToysQuantity();
+                    //toysList.get(i).setToysQuantity(quantity - 1);
+                    if (toysList.get(i).getToysQuantity()-1 == 0) {
                         System.out.printf("Last toy '%s' picked\n", toysList.get(i).getToysName());
                         this.pickedToyForGame = myAnswer;
-                        toysList.remove(i);
+                        // toysList.remove(i);
 
                     } else {
                         System.out.printf("Toy '%s' picked.\n", toysList.get(i).getToysName());
@@ -86,11 +86,10 @@ public class Storage {
 
     /**
      * Add toy to storage.
-     * @throws InterruptedException
      */
-    public void addToStorage()  {
+    public void addToStorage(Scanner input)  {
         
-            toysList.add(new Toy());
+            toysList.add(new Toy(input));
        
         
     }

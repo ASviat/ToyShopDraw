@@ -1,5 +1,6 @@
 package ToyShop;
 
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
@@ -38,46 +39,94 @@ public class Toy implements i_EditToy {
 
         }
     }
-    public Toy(){
-        
-        try (Scanner input = new Scanner(System.in)) {
 
-            System.out.println("Enter toys name: ");
-            this.toysName = input.nextLine();
-            System.out.println("Enter toys quantity you'd like to add: ");
-            this.toysQuantity = Integer.parseInt(input.nextLine());
-            System.out.println("Enter toys weight in double:\n(Example: 3.250 means 3 kg and 250 grams)");
-            this.toysWeight = Double.parseDouble(input.nextLine());
-            
-            // System.err.println("\nMistake found.");
-            // Thread.sleep(3000);
-            
+    public Toy(Scanner input) {
 
-        } catch (Exception e) {
-            System.err.println("Uncorrect data entered. Please, redo.");
+        try {
 
-        }
-    }
+            System.out.println("\nEnter toys name:\n");
 
-    @Override
-    public void editWeight() {
-        try (Scanner input = new Scanner(System.in)) {
-            System.out.println("Change the weight: ");
-            this.toysWeight = input.nextDouble();
-        } catch (Exception e) {
-            System.err.println("Not correct data for Weight Editing.\nPlease, just enter double or int:\n");
-            editWeight();
-        }
-    }
+            this.toysName = input.next();
 
-    @Override
-    public void editQuantity() {
-        try (Scanner input = new Scanner(System.in)) {
-            System.out.println("Change the Quantity: ");
+            System.out.println("\nEnter toys quantity you'd like to add: \n");
             this.toysQuantity = input.nextInt();
-        } catch (Exception e) {
-            System.err.println("Not correct data for Weight Editing.\nPlease, just enter int:\n");
-            editQuantity();
+            System.out.println("\nEnter toys weight in double:\n(Example: 3,250 means 3 kg and 250 grams)\n");
+            this.toysWeight = input.nextDouble();
+
+        } catch (RuntimeException e) {
+            System.err.println("Uncorrect data entered. Please, redo.");
+            // new Toy(input);
+        }
+    }
+
+    @Override
+    public void editWeight(LinkedList<Toy> toysList, Scanner input) {
+        try {
+            System.out.println("Enter the toys name you would like to edit: ");
+            String myAnswer = input.nextLine().toUpperCase();
+            int counter = 0;
+            for (int i = 0; i < toysList.size(); i++) {
+                if (myAnswer.equals(toysList.get(i).getToysName().toUpperCase())) {
+                    System.out.println("Entered Weight is: " + toysList.get(i).getToysWeight());
+                    System.out.println("Enter new Weight:\nFormat: kg,ggg\n");
+                    try {
+                        toysList.get(i).setToysWeight(input.nextDouble());
+
+                        break;
+                    } catch (Exception e) {
+                        System.err.println("Wrong data format of Weight.\n(Example: 3,250 means 3 kg and 250 grams)");
+                        editWeight(toysList, input);
+                    }
+
+                } else {
+                    counter++;
+                }
+
+            }
+            if (counter == 0) {
+                System.err.println("No such name found. Please, redo");
+                editWeight(toysList, input);
+            }
+
+        } catch (RuntimeException e) {
+            System.err.println("Wrong data format of Weight.\n(Example: 3.250 means 3 kg and 250 grams)");
+            editWeight(toysList, input);
+        }
+
+    }
+
+    @Override
+    public void editQuantity(LinkedList<Toy> toysList, Scanner input) {
+        try {
+            System.out.println("Enter the toys name you would like to edit: ");
+            String myAnswer = input.nextLine().toUpperCase();
+            int counter = 0;
+            for (int i = 0; i < toysList.size(); i++) {
+                if (myAnswer.equals(toysList.get(i).getToysName().toUpperCase())) {
+                    System.out.println("Entered Quantity is: " + toysList.get(i).getToysQuantity());
+                    System.out.println("Enter new Quantity:");
+                    try {
+                        toysList.get(i).setToysQuantity(input.nextInt());
+
+                        break;
+                    } catch (Exception e) {
+                        System.err.println("Wrong data format of Quantity (int).\n");
+                        editQuantity(toysList, input);
+                    }
+
+                } else {
+                    counter++;
+                }
+
+            }
+            if (counter == 0) {
+                System.err.println("No such name found. Please, redo");
+                editQuantity(toysList, input);
+            }
+
+        } catch (RuntimeException e) {
+            System.err.println("Wrong data format of Quantity.\n");
+            editQuantity(toysList, input);
         }
     }
 
@@ -114,14 +163,10 @@ public class Toy implements i_EditToy {
     public int getToyID() {
         return toyID;
     }
-    
 
     public void setToyID(int toyID) {
         this.toyID = toyID;
     }
-    // public void setToyID() {
-    //     this.toyID = toyID;
-    // }
 
     public String getToysName() {
         return toysName;
